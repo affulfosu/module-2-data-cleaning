@@ -1,5 +1,5 @@
 ---
-title: "Meeting-04 Examples"
+title: "Meeting 2-1 Examples"
 author: "Christopher Prener, Ph.D."
 date: '(`r format(Sys.time(), "%B %d, %Y")`)'
 output: 
@@ -268,7 +268,14 @@ Another way to recode variables is to take long strings and shorten them. We'll 
 If we want to keep all of these data but create shorthand references for them, we can use `case_when()` combined with `mutate()` to specify how each pollutant should be simplified:
 
 ```{r}
-
+lakes_large %>% 
+  mutate(pollutant_simple = case_when(
+    pollutant == "Chlorophyll-a (W)" ~ "Chlorophyll",
+    pollutant == "Mercury in Fish Tissue (T)" ~ "Mercury",
+    pollutant == "Phosphorus, Total (W)" ~ "Phosphorus",
+    pollutant == "Nitrogen, Total (W)"  ~ "Nitrogen",
+    pollutant == "Nutrient/Eutrophication Biol. Indicators (W)"  ~ "Eutrophication"
+    ))
 ```
 
 The strings after the tilde (`~`) are what will be returned as new values any time an old value is detected. Notice again how the exactly equal to relational operator (i.e. `==`) is used here!

@@ -1,17 +1,17 @@
 module-2-data-cleaning <img src="https://slu-soc5650.github.io/images/icon_hu137d436a85c84cab921c9c47edaed5ef_12382_192x192_fill_lanczos_center_2.png" align="right" />
 ===========================================================
-[![](https://img.shields.io/badge/semester-spring%2021-blue.svg)](https://github.com/slu-soc5650/module-2-data-cleaning)
+[![](https://img.shields.io/badge/semester-spring%2022-blue.svg)](https://github.com/slu-soc5650/module-2-data-cleaning)
 [![](https://img.shields.io/badge/release-full-brightgreen.svg)](https://github.com/slu-soc5650/module-2-data-cleaning)
 [![](https://img.shields.io/github/release/slu-soc5650/module-2-data-cleaning.svg?label=version)](https://github.com/slu-soc5650/module-2-data-cleaning/releases)
 [![](https://img.shields.io/github/last-commit/slu-soc5650/module-2-data-cleaning.svg)](https://github.com/slu-soc5650/module-2-data-cleaning/commits/master)
 [![](https://img.shields.io/github/repo-size/slu-soc5650/module-2-data-cleaning.svg)](https://github.com/slu-soc5650/module-2-data-cleaning)
 
-## Module 1 - Course Introduction
-These materials correspond to the fourth course meeting of SOC 4650 and SOC 5650.
+## Module 2 - Data Cleaning
+These materials correspond to first meeting for Module 2 of SOC 4650 and SOC 5650.
 
 ## Lesson Quick Start
 ### Install Software
-Make sure you've installed all of the packages listed [here](https://slu-soc5650.github.io/docs/start_prep/#r-packages) as well as `usethis`:
+Make sure you've installed all of the packages listed on Cavnas as well as `usethis`:
 
 ```r
 install.packages("usethis")

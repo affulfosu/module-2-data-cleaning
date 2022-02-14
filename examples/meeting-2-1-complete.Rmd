@@ -1,5 +1,5 @@
 ---
-title: "Meeting-04 Examples"
+title: "Meeting 2-1 Examples - Complete"
 author: "Christopher Prener, Ph.D."
 date: '(`r format(Sys.time(), "%B %d, %Y")`)'
 output: 
@@ -344,7 +344,7 @@ lakes_large %>%
 
 ```{r move-to-docs, include=FALSE}
 # you do need to include this in any notebook you create for this class
-fs::file_copy(here::here("examples", "meeting-04-complete.nb.html"), 
+fs::file_copy(here::here("examples", "meeting-2-1-complete.nb.html"), 
               here::here("docs", "index.nb.html"), 
               overwrite = TRUE)
 ```

@@ -1,11 +1,11 @@
-Lab-04 Replication
+Lab 2-1 Replication
 ================
 Branson Fox, BA and Christopher Prener, PhD
-(February 22, 2021)
+(February 14, 2022)
 
 ## Introduction
 
-This notebook replicates the results of lab 04.
+This notebook replicates the results of Lab 2-1.
 
 ## Dependencies
 
@@ -34,7 +34,7 @@ library(dplyr)   # data wrangling
 library(here)    # file path management
 ```
 
-    ## here() starts at /Users/chris/GitHub/slu-soc5650/content/module-2-data-cleaning/assignments/lab-04-replication
+    ## here() starts at /Users/prenercg/GitHub/slu-soc5650/module-2-data-cleaning/assignments/lab-2-1-replication
 
 ``` r
 library(janitor) # data wrangling
@@ -60,29 +60,18 @@ from the `module-2-data-cleaning` repository.
 rivers <- read_csv(here("data", "MO_HYDRO_ImpairedRiversStreams.csv"))
 ```
 
-    ## 
+    ## Rows: 6029 Columns: 31
+
     ## ── Column specification ────────────────────────────────────────────────────────
-    ## cols(
-    ##   .default = col_double(),
-    ##   WATER_BODY = col_character(),
-    ##   WB_CLS = col_character(),
-    ##   UNIT = col_character(),
-    ##   POLLUTANT = col_character(),
-    ##   SOURCE_ = col_character(),
-    ##   IU = col_character(),
-    ##   OU = col_character(),
-    ##   COUNTY_U_D = col_character(),
-    ##   WB_EPA = col_character(),
-    ##   COMMENT_ = col_character(),
-    ##   PERM_ID = col_character(),
-    ##   EVENTDAT = col_date(format = ""),
-    ##   REACHCODE = col_character(),
-    ##   RCHSMDATE = col_logical(),
-    ##   RCH_RES = col_logical(),
-    ##   SRC_DESC = col_character(),
-    ##   FEAT_URL = col_logical()
-    ## )
-    ## ℹ Use `spec()` for the full column specifications.
+    ## Delimiter: ","
+    ## chr  (13): WATER_BODY, WB_CLS, UNIT, POLLUTANT, SOURCE_, IU, OU, COUNTY_U_D,...
+    ## dbl  (14): YR, BUSINESSID, WBID, MDNR_IMPSZ, SIZE_, EPA_APPRSZ, UP_X, UP_Y, ...
+    ## lgl   (3): RCHSMDATE, RCH_RES, FEAT_URL
+    ## date  (1): EVENTDAT
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ## Part 1: Data Wrangling
 
@@ -102,19 +91,19 @@ rivers %>%
 rivers_names
 ```
 
-    ## # A tibble: 6,029 x 31
-    ##       yr businessid  wbid water_body wb_cls mdnr_impsz  size epa_apprsz unit 
-    ##    <dbl>      <dbl> <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl> <chr>
-    ##  1  2012      51525  2188 Antire Cr. P             1.9   1.9        1.9 Mi.  
-    ##  2  2012      51525  2188 Antire Cr. P             1.9   1.9        1.9 Mi.  
-    ##  3  2012      51524  2188 Antire Cr. P             1.9   1.9        1.9 Mi.  
-    ##  4  2012      51524  2188 Antire Cr. P             1.9   1.9        1.9 Mi.  
-    ##  5  2012      51388   752 Bass Cr.   C             4.4   4.4        4.4 Mi.  
-    ##  6  2012      51388   752 Bass Cr.   C             4.4   4.4        4.4 Mi.  
-    ##  7  2012      51388   752 Bass Cr.   C             4.4   4.4        4.4 Mi.  
-    ##  8  2012      51388   752 Bass Cr.   C             4.4   4.4        4.4 Mi.  
-    ##  9  2012      51388   752 Bass Cr.   C             4.4   4.4        4.4 Mi.  
-    ## 10  2012      51663  3240 Baynham B… P             4     4          4   Mi.  
+    ## # A tibble: 6,029 × 31
+    ##       yr businessid  wbid water_body  wb_cls mdnr_impsz  size epa_apprsz unit 
+    ##    <dbl>      <dbl> <dbl> <chr>       <chr>       <dbl> <dbl>      <dbl> <chr>
+    ##  1  2012      51525  2188 Antire Cr.  P             1.9   1.9        1.9 Mi.  
+    ##  2  2012      51525  2188 Antire Cr.  P             1.9   1.9        1.9 Mi.  
+    ##  3  2012      51524  2188 Antire Cr.  P             1.9   1.9        1.9 Mi.  
+    ##  4  2012      51524  2188 Antire Cr.  P             1.9   1.9        1.9 Mi.  
+    ##  5  2012      51388   752 Bass Cr.    C             4.4   4.4        4.4 Mi.  
+    ##  6  2012      51388   752 Bass Cr.    C             4.4   4.4        4.4 Mi.  
+    ##  7  2012      51388   752 Bass Cr.    C             4.4   4.4        4.4 Mi.  
+    ##  8  2012      51388   752 Bass Cr.    C             4.4   4.4        4.4 Mi.  
+    ##  9  2012      51388   752 Bass Cr.    C             4.4   4.4        4.4 Mi.  
+    ## 10  2012      51663  3240 Baynham Br. P             4     4          4   Mi.  
     ## # … with 6,019 more rows, and 22 more variables: pollutant <chr>, source <chr>,
     ## #   iu <chr>, ou <chr>, up_x <dbl>, up_y <dbl>, dwn_x <dbl>, dwn_y <dbl>,
     ## #   county <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>, date <date>,
@@ -131,7 +120,7 @@ Next, we’ll create a missing variable summary using the
 miss_var_summary(rivers_names)
 ```
 
-    ## # A tibble: 31 x 3
+    ## # A tibble: 31 × 3
     ##    variable   n_miss pct_miss
     ##    <chr>       <int>    <dbl>
     ##  1 rchsmdate    6029  100    
@@ -161,7 +150,7 @@ get_dupes(rivers_names)
 
     ## No variable names specified - using all columns.
 
-    ## # A tibble: 36 x 32
+    ## # A tibble: 36 × 32
     ##       yr businessid  wbid water_body wb_cls mdnr_impsz  size epa_apprsz unit 
     ##    <dbl>      <dbl> <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl> <chr>
     ##  1  2010      51730  2579 Platte R.  P            142.  142.       142. Mi.  
@@ -193,19 +182,19 @@ Next, we’ll check for duplicates in the `perm_id` variable:
 get_dupes(rivers_names, perm_id)
 ```
 
-    ## # A tibble: 2,349 x 32
-    ##    perm_id dupe_count    yr businessid  wbid water_body wb_cls mdnr_impsz  size
-    ##    <chr>        <int> <dbl>      <dbl> <dbl> <chr>      <chr>       <dbl> <dbl>
-    ##  1 {0034F…          3  2006      51618  3188 N. Fk. Sp… C             1.1  55.9
-    ##  2 {0034F…          3  2008      51620  3188 N. Fk. Sp… C            55.9  55.9
-    ##  3 {0034F…          3  2006      51619  3188 N. Fk. Sp… C            55.9  55.9
-    ##  4 {00B10…          2  2008      51018  2755 W. Fk. Bl… P             2.1  32.3
-    ##  5 {00B10…          2  2008      51770  2755 W. Fk. Bl… P             2.1  32.3
-    ##  6 {0145F…          2  2006      51487   623 L. Medici… P            19.8  39.8
-    ##  7 {0145F…          2  2006      51486   623 L. Medici… P            39.8  39.8
-    ##  8 {019A3…          4  2006      51548  2080 Big R.     P            52.8  81.3
-    ##  9 {019A3…          4  2010      55224  2080 Big R.     P            52.3  81.3
-    ## 10 {019A3…          4  2014      62493  2080 Big R.     P            52.3  81.3
+    ## # A tibble: 2,349 × 32
+    ##    perm_id  dupe_count    yr businessid  wbid water_body wb_cls mdnr_impsz  size
+    ##    <chr>         <int> <dbl>      <dbl> <dbl> <chr>      <chr>       <dbl> <dbl>
+    ##  1 {0034FF…          3  2006      51618  3188 N. Fk. Sp… C             1.1  55.9
+    ##  2 {0034FF…          3  2008      51620  3188 N. Fk. Sp… C            55.9  55.9
+    ##  3 {0034FF…          3  2006      51619  3188 N. Fk. Sp… C            55.9  55.9
+    ##  4 {00B100…          2  2008      51018  2755 W. Fk. Bl… P             2.1  32.3
+    ##  5 {00B100…          2  2008      51770  2755 W. Fk. Bl… P             2.1  32.3
+    ##  6 {0145F6…          2  2006      51487   623 L. Medici… P            19.8  39.8
+    ##  7 {0145F6…          2  2006      51486   623 L. Medici… P            39.8  39.8
+    ##  8 {019A32…          4  2006      51548  2080 Big R.     P            52.8  81.3
+    ##  9 {019A32…          4  2010      55224  2080 Big R.     P            52.3  81.3
+    ## 10 {019A32…          4  2014      62493  2080 Big R.     P            52.3  81.3
     ## # … with 2,339 more rows, and 23 more variables: epa_apprsz <dbl>, unit <chr>,
     ## #   pollutant <chr>, source <chr>, iu <chr>, ou <chr>, up_x <dbl>, up_y <dbl>,
     ## #   dwn_x <dbl>, dwn_y <dbl>, county <chr>, wb_epa <chr>, comment <chr>,
@@ -232,7 +221,7 @@ rivers_names %>%
 rivers_stl
 ```
 
-    ## # A tibble: 179 x 5
+    ## # A tibble: 179 × 5
     ##       yr  wbid water_body   pollutant            source                   
     ##    <dbl> <dbl> <chr>        <chr>                <chr>                    
     ##  1  2012  2188 Antire Cr.   Escherichia coli (W) Urban Runoff/Storm Sewers
@@ -266,7 +255,7 @@ rivers_stl %>%
 rivers_stl
 ```
 
-    ## # A tibble: 179 x 6
+    ## # A tibble: 179 × 6
     ##       yr  wbid water_body   pollutant            source                    ecoli
     ##    <dbl> <dbl> <chr>        <chr>                <chr>                     <lgl>
     ##  1  2012  2188 Antire Cr.   Escherichia coli (W) Urban Runoff/Storm Sewers TRUE 

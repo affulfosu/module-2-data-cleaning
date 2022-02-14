@@ -1,7 +1,7 @@
-Meeting-04 Examples
+Meeting 2-1 Examples - Complete
 ================
 Christopher Prener, Ph.D.
-(February 22, 2021)
+(February 14, 2022)
 
 ## Introduction
 
@@ -36,7 +36,7 @@ library(stringr)     # string tools
 library(here)        # file path management
 ```
 
-    ## here() starts at /Users/chris/GitHub/slu-soc5650/content/module-2-data-cleaning
+    ## here() starts at /Users/prenercg/GitHub/slu-soc5650/module-2-data-cleaning
 
 ``` r
 library(janitor)     # data wrangling
@@ -62,27 +62,18 @@ listed under the Clean Water Act.
 lakes <- read_csv(here("data", "example-data", "MO_HYDRO_ImpairedLakes.csv"))
 ```
 
-    ## 
+    ## Rows: 86 Columns: 28
+
     ## ── Column specification ────────────────────────────────────────────────────────
-    ## cols(
-    ##   .default = col_character(),
-    ##   YR = col_double(),
-    ##   BUSINESSID = col_double(),
-    ##   WBID = col_double(),
-    ##   MDNR_IMPSZ = col_double(),
-    ##   SIZE_ = col_double(),
-    ##   EPA_APPRSZ = col_double(),
-    ##   DWN_X = col_double(),
-    ##   DWN_Y = col_double(),
-    ##   EVENTDAT = col_date(format = ""),
-    ##   RCHSMDATE = col_logical(),
-    ##   RCH_RES = col_logical(),
-    ##   FEAT_URL = col_logical(),
-    ##   SHAPE_Leng = col_double(),
-    ##   Shape_Le_1 = col_double(),
-    ##   Shape_Area = col_double()
-    ## )
-    ## ℹ Use `spec()` for the full column specifications.
+    ## Delimiter: ","
+    ## chr  (13): WATER_BODY, WB_CLS, UNIT, POLLUTANT, SOURCE_, IU, OU, COUNTY_U_D,...
+    ## dbl  (11): YR, BUSINESSID, WBID, MDNR_IMPSZ, SIZE_, EPA_APPRSZ, DWN_X, DWN_Y...
+    ## lgl   (3): RCHSMDATE, RCH_RES, FEAT_URL
+    ## date  (1): EVENTDAT
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 When the data are read in, they are read in as a special type object
 called a `tibble` - these are data frame objects that have particular,
@@ -112,19 +103,19 @@ The default is `"snake"`, which we’ll clearly specify here:
 clean_names(lakes, case = "snake")
 ```
 
-    ## # A tibble: 86 x 28
-    ##       yr businessid  wbid water_body wb_cls mdnr_impsz  size epa_apprsz unit 
-    ##    <dbl>      <dbl> <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl> <chr>
-    ##  1  2014      60348  7309 Bee Tree … L3             10    10         10 Acres
-    ##  2  2006      59691  7365 Belcher B… L3             42    42         42 Acres
-    ##  3  2014      54686  7003 Bowling G… L1              7     7          7 Acres
-    ##  4  2012      51313  7003 Bowling G… L1              7     7          7 Acres
-    ##  5  2012      51312  7003 Bowling G… L1              7     7          7 Acres
-    ##  6  2016      60247  7117 Buffalo B… L3             45    45         45 Acres
-    ##  7  2006      60020  7057 Busch W.A… L3             51    51         51 Acres
-    ##  8  2014      55954  7326 Clearwate… L2           1635  1635       1635 Acres
-    ##  9  2002      60036  7326 Clearwate… L2           1635  1635       1635 Acres
-    ## 10  2016      60037  7326 Clearwate… L2           1635  1635       1635 Acres
+    ## # A tibble: 86 × 28
+    ##       yr businessid  wbid water_body    wb_cls mdnr_impsz  size epa_apprsz unit 
+    ##    <dbl>      <dbl> <dbl> <chr>         <chr>       <dbl> <dbl>      <dbl> <chr>
+    ##  1  2014      60348  7309 Bee Tree Lake L3             10    10         10 Acres
+    ##  2  2006      59691  7365 Belcher Bran… L3             42    42         42 Acres
+    ##  3  2014      54686  7003 Bowling Gree… L1              7     7          7 Acres
+    ##  4  2012      51313  7003 Bowling Gree… L1              7     7          7 Acres
+    ##  5  2012      51312  7003 Bowling Gree… L1              7     7          7 Acres
+    ##  6  2016      60247  7117 Buffalo Bill… L3             45    45         45 Acres
+    ##  7  2006      60020  7057 Busch W.A. N… L3             51    51         51 Acres
+    ##  8  2014      55954  7326 Clearwater L… L2           1635  1635       1635 Acres
+    ##  9  2002      60036  7326 Clearwater L… L2           1635  1635       1635 Acres
+    ## 10  2016      60037  7326 Clearwater L… L2           1635  1635       1635 Acres
     ## # … with 76 more rows, and 19 more variables: pollutant <chr>, source <chr>,
     ## #   iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>, county_u_d <chr>,
     ## #   wb_epa <chr>, comment <chr>, perm_id <chr>, eventdat <date>,
@@ -139,19 +130,19 @@ for comparison.
 clean_names(lakes, case = "lower_camel")
 ```
 
-    ## # A tibble: 86 x 28
-    ##       yr businessid  wbid waterBody wbCls mdnrImpsz  size epaApprsz unit 
-    ##    <dbl>      <dbl> <dbl> <chr>     <chr>     <dbl> <dbl>     <dbl> <chr>
-    ##  1  2014      60348  7309 Bee Tree… L3           10    10        10 Acres
-    ##  2  2006      59691  7365 Belcher … L3           42    42        42 Acres
-    ##  3  2014      54686  7003 Bowling … L1            7     7         7 Acres
-    ##  4  2012      51313  7003 Bowling … L1            7     7         7 Acres
-    ##  5  2012      51312  7003 Bowling … L1            7     7         7 Acres
-    ##  6  2016      60247  7117 Buffalo … L3           45    45        45 Acres
-    ##  7  2006      60020  7057 Busch W.… L3           51    51        51 Acres
-    ##  8  2014      55954  7326 Clearwat… L2         1635  1635      1635 Acres
-    ##  9  2002      60036  7326 Clearwat… L2         1635  1635      1635 Acres
-    ## 10  2016      60037  7326 Clearwat… L2         1635  1635      1635 Acres
+    ## # A tibble: 86 × 28
+    ##       yr businessid  wbid waterBody        wbCls mdnrImpsz  size epaApprsz unit 
+    ##    <dbl>      <dbl> <dbl> <chr>            <chr>     <dbl> <dbl>     <dbl> <chr>
+    ##  1  2014      60348  7309 Bee Tree Lake    L3           10    10        10 Acres
+    ##  2  2006      59691  7365 Belcher Branch … L3           42    42        42 Acres
+    ##  3  2014      54686  7003 Bowling Green L… L1            7     7         7 Acres
+    ##  4  2012      51313  7003 Bowling Green L… L1            7     7         7 Acres
+    ##  5  2012      51312  7003 Bowling Green L… L1            7     7         7 Acres
+    ##  6  2016      60247  7117 Buffalo Bill La… L3           45    45        45 Acres
+    ##  7  2006      60020  7057 Busch W.A. No. … L3           51    51        51 Acres
+    ##  8  2014      55954  7326 Clearwater Lake  L2         1635  1635      1635 Acres
+    ##  9  2002      60036  7326 Clearwater Lake  L2         1635  1635      1635 Acres
+    ## 10  2016      60037  7326 Clearwater Lake  L2         1635  1635      1635 Acres
     ## # … with 76 more rows, and 19 more variables: pollutant <chr>, source <chr>,
     ## #   iu <chr>, ou <chr>, dwnX <dbl>, dwnY <dbl>, countyUD <chr>, wbEpa <chr>,
     ## #   comment <chr>, permId <chr>, eventdat <date>, reachcode <chr>,
@@ -166,19 +157,19 @@ each variable name will also be capitalized:
 clean_names(lakes, case = "upper_camel")
 ```
 
-    ## # A tibble: 86 x 28
-    ##       Yr Businessid  Wbid WaterBody WbCls MdnrImpsz  Size EpaApprsz Unit 
-    ##    <dbl>      <dbl> <dbl> <chr>     <chr>     <dbl> <dbl>     <dbl> <chr>
-    ##  1  2014      60348  7309 Bee Tree… L3           10    10        10 Acres
-    ##  2  2006      59691  7365 Belcher … L3           42    42        42 Acres
-    ##  3  2014      54686  7003 Bowling … L1            7     7         7 Acres
-    ##  4  2012      51313  7003 Bowling … L1            7     7         7 Acres
-    ##  5  2012      51312  7003 Bowling … L1            7     7         7 Acres
-    ##  6  2016      60247  7117 Buffalo … L3           45    45        45 Acres
-    ##  7  2006      60020  7057 Busch W.… L3           51    51        51 Acres
-    ##  8  2014      55954  7326 Clearwat… L2         1635  1635      1635 Acres
-    ##  9  2002      60036  7326 Clearwat… L2         1635  1635      1635 Acres
-    ## 10  2016      60037  7326 Clearwat… L2         1635  1635      1635 Acres
+    ## # A tibble: 86 × 28
+    ##       Yr Businessid  Wbid WaterBody        WbCls MdnrImpsz  Size EpaApprsz Unit 
+    ##    <dbl>      <dbl> <dbl> <chr>            <chr>     <dbl> <dbl>     <dbl> <chr>
+    ##  1  2014      60348  7309 Bee Tree Lake    L3           10    10        10 Acres
+    ##  2  2006      59691  7365 Belcher Branch … L3           42    42        42 Acres
+    ##  3  2014      54686  7003 Bowling Green L… L1            7     7         7 Acres
+    ##  4  2012      51313  7003 Bowling Green L… L1            7     7         7 Acres
+    ##  5  2012      51312  7003 Bowling Green L… L1            7     7         7 Acres
+    ##  6  2016      60247  7117 Buffalo Bill La… L3           45    45        45 Acres
+    ##  7  2006      60020  7057 Busch W.A. No. … L3           51    51        51 Acres
+    ##  8  2014      55954  7326 Clearwater Lake  L2         1635  1635      1635 Acres
+    ##  9  2002      60036  7326 Clearwater Lake  L2         1635  1635      1635 Acres
+    ## 10  2016      60037  7326 Clearwater Lake  L2         1635  1635      1635 Acres
     ## # … with 76 more rows, and 19 more variables: Pollutant <chr>, Source <chr>,
     ## #   Iu <chr>, Ou <chr>, DwnX <dbl>, DwnY <dbl>, CountyUD <chr>, WbEpa <chr>,
     ## #   Comment <chr>, PermId <chr>, Eventdat <date>, Reachcode <chr>,
@@ -201,19 +192,19 @@ lakes %>%
 lakes_names
 ```
 
-    ## # A tibble: 86 x 28
-    ##     year businessid water_body_id water_body wb_cls mdnr_impsz  size epa_apprsz
-    ##    <dbl>      <dbl>         <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl>
-    ##  1  2014      60348          7309 Bee Tree … L3             10    10         10
-    ##  2  2006      59691          7365 Belcher B… L3             42    42         42
-    ##  3  2014      54686          7003 Bowling G… L1              7     7          7
-    ##  4  2012      51313          7003 Bowling G… L1              7     7          7
-    ##  5  2012      51312          7003 Bowling G… L1              7     7          7
-    ##  6  2016      60247          7117 Buffalo B… L3             45    45         45
-    ##  7  2006      60020          7057 Busch W.A… L3             51    51         51
-    ##  8  2014      55954          7326 Clearwate… L2           1635  1635       1635
-    ##  9  2002      60036          7326 Clearwate… L2           1635  1635       1635
-    ## 10  2016      60037          7326 Clearwate… L2           1635  1635       1635
+    ## # A tibble: 86 × 28
+    ##     year businessid water_body_id water_body  wb_cls mdnr_impsz  size epa_apprsz
+    ##    <dbl>      <dbl>         <dbl> <chr>       <chr>       <dbl> <dbl>      <dbl>
+    ##  1  2014      60348          7309 Bee Tree L… L3             10    10         10
+    ##  2  2006      59691          7365 Belcher Br… L3             42    42         42
+    ##  3  2014      54686          7003 Bowling Gr… L1              7     7          7
+    ##  4  2012      51313          7003 Bowling Gr… L1              7     7          7
+    ##  5  2012      51312          7003 Bowling Gr… L1              7     7          7
+    ##  6  2016      60247          7117 Buffalo Bi… L3             45    45         45
+    ##  7  2006      60020          7057 Busch W.A.… L3             51    51         51
+    ##  8  2014      55954          7326 Clearwater… L2           1635  1635       1635
+    ##  9  2002      60036          7326 Clearwater… L2           1635  1635       1635
+    ## 10  2016      60037          7326 Clearwater… L2           1635  1635       1635
     ## # … with 76 more rows, and 20 more variables: unit <chr>, pollutant <chr>,
     ## #   source <chr>, iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>,
     ## #   county_u_d <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>,
@@ -240,7 +231,7 @@ lakes_names %>%
   miss_var_summary()
 ```
 
-    ## # A tibble: 28 x 3
+    ## # A tibble: 28 × 3
     ##    variable      n_miss pct_miss
     ##    <chr>          <int>    <dbl>
     ##  1 rchsmdate         86   100   
@@ -288,7 +279,7 @@ lakes_names %>%
 
     ## No duplicate combinations found of: year, businessid, water_body_id, water_body, wb_cls, mdnr_impsz, size, epa_apprsz, unit, ... and 19 other variables
 
-    ## # A tibble: 0 x 29
+    ## # A tibble: 0 × 29
     ## # … with 29 variables: year <dbl>, businessid <dbl>, water_body_id <dbl>,
     ## #   water_body <chr>, wb_cls <chr>, mdnr_impsz <dbl>, size <dbl>,
     ## #   epa_apprsz <dbl>, unit <chr>, pollutant <chr>, source <chr>, iu <chr>,
@@ -308,19 +299,19 @@ lakes_names %>%
   get_dupes(water_body)
 ```
 
-    ## # A tibble: 45 x 29
-    ##    water_body dupe_count  year businessid water_body_id wb_cls mdnr_impsz  size
-    ##    <chr>           <int> <dbl>      <dbl>         <dbl> <chr>       <dbl> <dbl>
-    ##  1 Bowling G…          3  2014      54686          7003 L1              7     7
-    ##  2 Bowling G…          3  2012      51313          7003 L1              7     7
-    ##  3 Bowling G…          3  2012      51312          7003 L1              7     7
-    ##  4 Clearwate…          3  2014      55954          7326 L2           1635  1635
-    ##  5 Clearwate…          3  2002      60036          7326 L2           1635  1635
-    ##  6 Clearwate…          3  2016      60037          7326 L2           1635  1635
-    ##  7 Crane Lake          2  2016      60023          7334 L3            109   109
-    ##  8 Crane Lake          2  2016      60022          7334 L3            109   109
-    ##  9 Forest La…          4  2010      51337          7151 L1            580   580
-    ## 10 Forest La…          4  2016      60145          7151 L1            580   580
+    ## # A tibble: 45 × 29
+    ##    water_body  dupe_count  year businessid water_body_id wb_cls mdnr_impsz  size
+    ##    <chr>            <int> <dbl>      <dbl>         <dbl> <chr>       <dbl> <dbl>
+    ##  1 Bowling Gr…          3  2014      54686          7003 L1              7     7
+    ##  2 Bowling Gr…          3  2012      51313          7003 L1              7     7
+    ##  3 Bowling Gr…          3  2012      51312          7003 L1              7     7
+    ##  4 Clearwater…          3  2014      55954          7326 L2           1635  1635
+    ##  5 Clearwater…          3  2002      60036          7326 L2           1635  1635
+    ##  6 Clearwater…          3  2016      60037          7326 L2           1635  1635
+    ##  7 Crane Lake           2  2016      60023          7334 L3            109   109
+    ##  8 Crane Lake           2  2016      60022          7334 L3            109   109
+    ##  9 Forest Lake          4  2010      51337          7151 L1            580   580
+    ## 10 Forest Lake          4  2016      60145          7151 L1            580   580
     ## # … with 35 more rows, and 21 more variables: epa_apprsz <dbl>, unit <chr>,
     ## #   pollutant <chr>, source <chr>, iu <chr>, ou <chr>, dwn_x <dbl>,
     ## #   dwn_y <dbl>, county_u_d <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>,
@@ -340,7 +331,7 @@ lakes_names %>%
   distinct(water_body)
 ```
 
-    ## # A tibble: 55 x 1
+    ## # A tibble: 55 × 1
     ##    water_body              
     ##    <chr>                   
     ##  1 Bee Tree Lake           
@@ -381,19 +372,19 @@ lakes_names %>%
 lakes_unique
 ```
 
-    ## # A tibble: 55 x 28
-    ##     year businessid water_body_id water_body wb_cls mdnr_impsz  size epa_apprsz
-    ##    <dbl>      <dbl>         <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl>
-    ##  1  2014      60348          7309 Bee Tree … L3             10    10         10
-    ##  2  2006      59691          7365 Belcher B… L3             42    42         42
-    ##  3  2014      54686          7003 Bowling G… L1              7     7          7
-    ##  4  2016      60247          7117 Buffalo B… L3             45    45         45
-    ##  5  2006      60020          7057 Busch W.A… L3             51    51         51
-    ##  6  2014      55954          7326 Clearwate… L2           1635  1635       1635
-    ##  7  2016      60336          7378 Coot Lake  L3             20    20         20
-    ##  8  2016      60338          7379 Cottontai… L3             22    22         22
-    ##  9  2016      60023          7334 Crane Lake L3            109   109        109
-    ## 10  2016      60260          7135 Crowder S… L3             18    18         18
+    ## # A tibble: 55 × 28
+    ##     year businessid water_body_id water_body  wb_cls mdnr_impsz  size epa_apprsz
+    ##    <dbl>      <dbl>         <dbl> <chr>       <chr>       <dbl> <dbl>      <dbl>
+    ##  1  2014      60348          7309 Bee Tree L… L3             10    10         10
+    ##  2  2006      59691          7365 Belcher Br… L3             42    42         42
+    ##  3  2014      54686          7003 Bowling Gr… L1              7     7          7
+    ##  4  2016      60247          7117 Buffalo Bi… L3             45    45         45
+    ##  5  2006      60020          7057 Busch W.A.… L3             51    51         51
+    ##  6  2014      55954          7326 Clearwater… L2           1635  1635       1635
+    ##  7  2016      60336          7378 Coot Lake   L3             20    20         20
+    ##  8  2016      60338          7379 Cottontail… L3             22    22         22
+    ##  9  2016      60023          7334 Crane Lake  L3            109   109        109
+    ## 10  2016      60260          7135 Crowder St… L3             18    18         18
     ## # … with 45 more rows, and 20 more variables: unit <chr>, pollutant <chr>,
     ## #   source <chr>, iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>,
     ## #   county_u_d <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>,
@@ -414,19 +405,19 @@ lakes_unique %>%
   select(-year)
 ```
 
-    ## # A tibble: 55 x 27
-    ##    businessid water_body_id water_body wb_cls mdnr_impsz  size epa_apprsz unit 
-    ##         <dbl>         <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl> <chr>
-    ##  1      60348          7309 Bee Tree … L3             10    10         10 Acres
-    ##  2      59691          7365 Belcher B… L3             42    42         42 Acres
-    ##  3      54686          7003 Bowling G… L1              7     7          7 Acres
-    ##  4      60247          7117 Buffalo B… L3             45    45         45 Acres
-    ##  5      60020          7057 Busch W.A… L3             51    51         51 Acres
-    ##  6      55954          7326 Clearwate… L2           1635  1635       1635 Acres
-    ##  7      60336          7378 Coot Lake  L3             20    20         20 Acres
-    ##  8      60338          7379 Cottontai… L3             22    22         22 Acres
-    ##  9      60023          7334 Crane Lake L3            109   109        109 Acres
-    ## 10      60260          7135 Crowder S… L3             18    18         18 Acres
+    ## # A tibble: 55 × 27
+    ##    businessid water_body_id water_body  wb_cls mdnr_impsz  size epa_apprsz unit 
+    ##         <dbl>         <dbl> <chr>       <chr>       <dbl> <dbl>      <dbl> <chr>
+    ##  1      60348          7309 Bee Tree L… L3             10    10         10 Acres
+    ##  2      59691          7365 Belcher Br… L3             42    42         42 Acres
+    ##  3      54686          7003 Bowling Gr… L1              7     7          7 Acres
+    ##  4      60247          7117 Buffalo Bi… L3             45    45         45 Acres
+    ##  5      60020          7057 Busch W.A.… L3             51    51         51 Acres
+    ##  6      55954          7326 Clearwater… L2           1635  1635       1635 Acres
+    ##  7      60336          7378 Coot Lake   L3             20    20         20 Acres
+    ##  8      60338          7379 Cottontail… L3             22    22         22 Acres
+    ##  9      60023          7334 Crane Lake  L3            109   109        109 Acres
+    ## 10      60260          7135 Crowder St… L3             18    18         18 Acres
     ## # … with 45 more rows, and 19 more variables: pollutant <chr>, source <chr>,
     ## #   iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>, county_u_d <chr>,
     ## #   wb_epa <chr>, comment <chr>, perm_id <chr>, eventdat <date>,
@@ -443,7 +434,7 @@ lakes_unique %>%
 lakes_subset_cols
 ```
 
-    ## # A tibble: 55 x 3
+    ## # A tibble: 55 × 3
     ##    water_body_id water_body               pollutant                 
     ##            <dbl> <chr>                    <chr>                     
     ##  1          7309 Bee Tree Lake            Mercury in Fish Tissue (T)
@@ -470,7 +461,7 @@ lakes_subset_cols %>%
   select(pollutant, water_body_id, water_body)
 ```
 
-    ## # A tibble: 55 x 3
+    ## # A tibble: 55 × 3
     ##    pollutant                  water_body_id water_body              
     ##    <chr>                              <dbl> <chr>                   
     ##  1 Mercury in Fish Tissue (T)          7309 Bee Tree Lake           
@@ -496,19 +487,19 @@ lakes_names %>%
   filter(size >= 100)
 ```
 
-    ## # A tibble: 45 x 28
-    ##     year businessid water_body_id water_body wb_cls mdnr_impsz  size epa_apprsz
-    ##    <dbl>      <dbl>         <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl>
-    ##  1  2014      55954          7326 Clearwate… L2           1635  1635       1635
-    ##  2  2002      60036          7326 Clearwate… L2           1635  1635       1635
-    ##  3  2016      60037          7326 Clearwate… L2           1635  1635       1635
-    ##  4  2016      60023          7334 Crane Lake L3            109   109        109
-    ##  5  2016      60022          7334 Crane Lake L3            109   109        109
-    ##  6  2012      60105          7237 Fellows L… L1            800   800        800
-    ##  7  2010      51337          7151 Forest La… L1            580   580        580
-    ##  8  2016      60145          7151 Forest La… L1            580   580        580
-    ##  9  2010      51335          7151 Forest La… L1            580   580        580
-    ## 10  2010      51336          7151 Forest La… L1            580   580        580
+    ## # A tibble: 45 × 28
+    ##     year businessid water_body_id water_body      wb_cls mdnr_impsz  size epa_apprsz
+    ##    <dbl>      <dbl>         <dbl> <chr>           <chr>       <dbl> <dbl>      <dbl>
+    ##  1  2014      55954          7326 Clearwater Lake L2           1635  1635       1635
+    ##  2  2002      60036          7326 Clearwater Lake L2           1635  1635       1635
+    ##  3  2016      60037          7326 Clearwater Lake L2           1635  1635       1635
+    ##  4  2016      60023          7334 Crane Lake      L3            109   109        109
+    ##  5  2016      60022          7334 Crane Lake      L3            109   109        109
+    ##  6  2012      60105          7237 Fellows Lake    L1            800   800        800
+    ##  7  2010      51337          7151 Forest Lake     L1            580   580        580
+    ##  8  2016      60145          7151 Forest Lake     L1            580   580        580
+    ##  9  2010      51335          7151 Forest Lake     L1            580   580        580
+    ## 10  2010      51336          7151 Forest Lake     L1            580   580        580
     ## # … with 35 more rows, and 20 more variables: unit <chr>, pollutant <chr>,
     ## #   source <chr>, iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>,
     ## #   county_u_d <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>,
@@ -542,19 +533,19 @@ lakes_names %>%
   filter(pollutant == "Mercury in Fish Tissue (T)")
 ```
 
-    ## # A tibble: 58 x 28
-    ##     year businessid water_body_id water_body wb_cls mdnr_impsz  size epa_apprsz
-    ##    <dbl>      <dbl>         <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl>
-    ##  1  2014      60348          7309 Bee Tree … L3             10    10         10
-    ##  2  2006      59691          7365 Belcher B… L3             42    42         42
-    ##  3  2016      60247          7117 Buffalo B… L3             45    45         45
-    ##  4  2006      60020          7057 Busch W.A… L3             51    51         51
-    ##  5  2002      60036          7326 Clearwate… L2           1635  1635       1635
-    ##  6  2016      60336          7378 Coot Lake  L3             20    20         20
-    ##  7  2016      60338          7379 Cottontai… L3             22    22         22
-    ##  8  2016      60260          7135 Crowder S… L3             18    18         18
-    ##  9  2002      59683          7015 Deer Ridg… L3             39    39         39
-    ## 10  2012      60105          7237 Fellows L… L1            800   800        800
+    ## # A tibble: 58 × 28
+    ##     year businessid water_body_id water_body  wb_cls mdnr_impsz  size epa_apprsz
+    ##    <dbl>      <dbl>         <dbl> <chr>       <chr>       <dbl> <dbl>      <dbl>
+    ##  1  2014      60348          7309 Bee Tree L… L3             10    10         10
+    ##  2  2006      59691          7365 Belcher Br… L3             42    42         42
+    ##  3  2016      60247          7117 Buffalo Bi… L3             45    45         45
+    ##  4  2006      60020          7057 Busch W.A.… L3             51    51         51
+    ##  5  2002      60036          7326 Clearwater… L2           1635  1635       1635
+    ##  6  2016      60336          7378 Coot Lake   L3             20    20         20
+    ##  7  2016      60338          7379 Cottontail… L3             22    22         22
+    ##  8  2016      60260          7135 Crowder St… L3             18    18         18
+    ##  9  2002      59683          7015 Deer Ridge… L3             39    39         39
+    ## 10  2012      60105          7237 Fellows La… L1            800   800        800
     ## # … with 48 more rows, and 20 more variables: unit <chr>, pollutant <chr>,
     ## #   source <chr>, iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>,
     ## #   county_u_d <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>,
@@ -570,19 +561,19 @@ lakes_names %>%
   filter(size >= 100 & pollutant == "Mercury in Fish Tissue (T)")
 ```
 
-    ## # A tibble: 27 x 28
-    ##     year businessid water_body_id water_body wb_cls mdnr_impsz  size epa_apprsz
-    ##    <dbl>      <dbl>         <dbl> <chr>      <chr>       <dbl> <dbl>      <dbl>
-    ##  1  2002      60036          7326 Clearwate… L2          1635  1635       1635 
-    ##  2  2012      60105          7237 Fellows L… L1           800   800        800 
-    ##  3  2016      60145          7151 Forest La… L1           580   580        580 
-    ##  4  2014      60245          7386 Harrison … L1           280   280        280 
-    ##  5  2008      60129          7152 Hazel Cre… L1           453   453        453 
-    ##  6  2016      60068          7193 Holden Ci… L1           290.  290.       290.
-    ##  7  2012      59887          7029 Hunnewell… L3           228   228        228 
-    ##  8  2012      59887          7029 Hunnewell… L3           228   228        228 
-    ##  9  2012      59887          7029 Hunnewell… L3           228   228        228 
-    ## 10  2012      59887          7029 Hunnewell… L3           228   228        228 
+    ## # A tibble: 27 × 28
+    ##     year businessid water_body_id water_body  wb_cls mdnr_impsz  size epa_apprsz
+    ##    <dbl>      <dbl>         <dbl> <chr>       <chr>       <dbl> <dbl>      <dbl>
+    ##  1  2002      60036          7326 Clearwater… L2          1635  1635       1635 
+    ##  2  2012      60105          7237 Fellows La… L1           800   800        800 
+    ##  3  2016      60145          7151 Forest Lake L1           580   580        580 
+    ##  4  2014      60245          7386 Harrison C… L1           280   280        280 
+    ##  5  2008      60129          7152 Hazel Cree… L1           453   453        453 
+    ##  6  2016      60068          7193 Holden Cit… L1           290.  290.       290.
+    ##  7  2012      59887          7029 Hunnewell … L3           228   228        228 
+    ##  8  2012      59887          7029 Hunnewell … L3           228   228        228 
+    ##  9  2012      59887          7029 Hunnewell … L3           228   228        228 
+    ## 10  2012      59887          7029 Hunnewell … L3           228   228        228 
     ## # … with 17 more rows, and 20 more variables: unit <chr>, pollutant <chr>,
     ## #   source <chr>, iu <chr>, ou <chr>, dwn_x <dbl>, dwn_y <dbl>,
     ## #   county_u_d <chr>, wb_epa <chr>, comment <chr>, perm_id <chr>,
@@ -606,7 +597,7 @@ lakes_names %>%
   distinct(water_body)
 ```
 
-    ## # A tibble: 19 x 1
+    ## # A tibble: 19 × 1
     ##    water_body                 
     ##    <chr>                      
     ##  1 Clearwater Lake            
@@ -658,7 +649,7 @@ lakes %>%
 lakes_large
 ```
 
-    ## # A tibble: 45 x 5
+    ## # A tibble: 45 × 5
     ##    water_body_id water_body       size unit  pollutant                 
     ##            <dbl> <chr>           <dbl> <chr> <chr>                     
     ##  1          7326 Clearwater Lake  1635 Acres Chlorophyll-a (W)         
@@ -691,7 +682,7 @@ lakes_large %>%
 lakes_chr
 ```
 
-    ## # A tibble: 45 x 5
+    ## # A tibble: 45 × 5
     ##    water_body_id water_body      size  unit  pollutant                 
     ##            <dbl> <chr>           <chr> <chr> <chr>                     
     ##  1          7326 Clearwater Lake 1635  Acres Chlorophyll-a (W)         
@@ -718,7 +709,7 @@ lakes_chr %>%
   mutate(size = as.numeric(size))
 ```
 
-    ## # A tibble: 45 x 5
+    ## # A tibble: 45 × 5
     ##    water_body_id water_body       size unit  pollutant                 
     ##            <dbl> <chr>           <dbl> <chr> <chr>                     
     ##  1          7326 Clearwater Lake  1635 Acres Chlorophyll-a (W)         
@@ -754,7 +745,7 @@ lakes_large %>%
   select(water_body, size, vlarge)
 ```
 
-    ## # A tibble: 45 x 3
+    ## # A tibble: 45 × 3
     ##    water_body       size vlarge
     ##    <chr>           <dbl> <lgl> 
     ##  1 Clearwater Lake  1635 TRUE  
@@ -781,7 +772,7 @@ lakes_large %>%
   select(water_body, size, vlarge)
 ```
 
-    ## # A tibble: 45 x 3
+    ## # A tibble: 45 × 3
     ##    water_body       size vlarge          
     ##    <chr>           <dbl> <chr>           
     ##  1 Clearwater Lake  1635 Over 1000 acres 
@@ -809,7 +800,7 @@ lakes_large %>%
   select(water_body, mercury)
 ```
 
-    ## # A tibble: 45 x 2
+    ## # A tibble: 45 × 2
     ##    water_body      mercury
     ##    <chr>           <lgl>  
     ##  1 Clearwater Lake FALSE  
@@ -835,7 +826,7 @@ lakes_large %>%
   select(water_body, pollutant, mercury)
 ```
 
-    ## # A tibble: 45 x 3
+    ## # A tibble: 45 × 3
     ##    water_body      pollutant                  mercury
     ##    <chr>           <chr>                      <lgl>  
     ##  1 Clearwater Lake Chlorophyll-a (W)          FALSE  
@@ -860,7 +851,7 @@ lakes_large %>%
   select(water_body, pollutant, phosNitro)
 ```
 
-    ## # A tibble: 45 x 3
+    ## # A tibble: 45 × 3
     ##    water_body      pollutant                  phosNitro
     ##    <chr>           <chr>                      <lgl>    
     ##  1 Clearwater Lake Chlorophyll-a (W)          FALSE    
@@ -888,7 +879,7 @@ lakes_large %>%
   distinct(pollutant)
 ```
 
-    ## # A tibble: 5 x 1
+    ## # A tibble: 5 × 1
     ##   pollutant                                   
     ##   <chr>                                       
     ## 1 Chlorophyll-a (W)                           
@@ -912,19 +903,19 @@ lakes_large %>%
     ))
 ```
 
-    ## # A tibble: 45 x 6
-    ##    water_body_id water_body      size unit  pollutant           pollutant_simple
-    ##            <dbl> <chr>          <dbl> <chr> <chr>               <chr>           
-    ##  1          7326 Clearwater La…  1635 Acres Chlorophyll-a (W)   Chlorophyll     
-    ##  2          7326 Clearwater La…  1635 Acres Mercury in Fish Ti… Mercury         
-    ##  3          7326 Clearwater La…  1635 Acres Phosphorus, Total … Phosphorus      
-    ##  4          7334 Crane Lake       109 Acres Chlorophyll-a (W)   Chlorophyll     
-    ##  5          7334 Crane Lake       109 Acres Phosphorus, Total … Phosphorus      
-    ##  6          7237 Fellows Lake     800 Acres Mercury in Fish Ti… Mercury         
-    ##  7          7151 Forest Lake      580 Acres Chlorophyll-a (W)   Chlorophyll     
-    ##  8          7151 Forest Lake      580 Acres Mercury in Fish Ti… Mercury         
-    ##  9          7151 Forest Lake      580 Acres Nitrogen, Total (W) Nitrogen        
-    ## 10          7151 Forest Lake      580 Acres Phosphorus, Total … Phosphorus      
+    ## # A tibble: 45 × 6
+    ##    water_body_id water_body       size unit  pollutant          pollutant_simple
+    ##            <dbl> <chr>           <dbl> <chr> <chr>              <chr>           
+    ##  1          7326 Clearwater Lake  1635 Acres Chlorophyll-a (W)  Chlorophyll     
+    ##  2          7326 Clearwater Lake  1635 Acres Mercury in Fish T… Mercury         
+    ##  3          7326 Clearwater Lake  1635 Acres Phosphorus, Total… Phosphorus      
+    ##  4          7334 Crane Lake        109 Acres Chlorophyll-a (W)  Chlorophyll     
+    ##  5          7334 Crane Lake        109 Acres Phosphorus, Total… Phosphorus      
+    ##  6          7237 Fellows Lake      800 Acres Mercury in Fish T… Mercury         
+    ##  7          7151 Forest Lake       580 Acres Chlorophyll-a (W)  Chlorophyll     
+    ##  8          7151 Forest Lake       580 Acres Mercury in Fish T… Mercury         
+    ##  9          7151 Forest Lake       580 Acres Nitrogen, Total (… Nitrogen        
+    ## 10          7151 Forest Lake       580 Acres Phosphorus, Total… Phosphorus      
     ## # … with 35 more rows
 
 The strings after the tilde (`~`) are what will be returned as new
@@ -963,7 +954,7 @@ lakes_large %>%
   arrange(desc(pollutant_count))
 ```
 
-    ## # A tibble: 22 x 3
+    ## # A tibble: 22 × 3
     ##    water_body           pollutant_count mercury
     ##    <chr>                          <int> <lgl>  
     ##  1 Forest Lake                        4 TRUE   

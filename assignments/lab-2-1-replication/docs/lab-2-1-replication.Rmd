@@ -1,5 +1,5 @@
 ---
-title: "Lab-04 Replication"
+title: "Lab 2-1 Replication"
 author: "Branson Fox, BA and Christopher Prener, PhD"
 date: '(`r format(Sys.time(), "%B %d, %Y")`)'
 output: 
@@ -8,7 +8,7 @@ output:
 ---
 
 ## Introduction
-This notebook replicates the results of lab 04.
+This notebook replicates the results of Lab 2-1.
 
 ## Dependencies
 This notebook requires the following packages to load our data and clean it.
