@@ -1,0 +1,408 @@
+---
+title: "Lab-2-1"
+author: "Afful Fosu"
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+## Introduction
+This notebook illustrates basic data cleaning operations using a number of core tools for data wrangling.
+
+## Dependencies 
+This notebook requires a number of packages for working with data:
+
+```{r load-packages}
+# tidyverse packages
+library(dplyr)       # data wrangling
+library(readr)       # read csv files
+library(stringr)     # string tools
+
+# other packages
+library(here)        # file path management
+library(janitor)     # data wrangling
+library(naniar)      # missing data analyses
+```
+
+## Load Data
+This notebook requires data from the University of Missouri on lakes listed under the Clean Water Act. 
+
+```{r load-data}
+lakes <- read_csv(here("data", "example-data", "MO_HYDRO_ImpairedLakes.csv"))
+
+```
+When the data are read in, they are read in as a special type object called a `tibble` - these are data frame objects that have particular, useful properties, like clean printing. `readr` will always create `tibble` objects for you. If you want to create one from an object that is not a tibble, you can use the following syntax:
+
+```r
+obj <- dplyr::as_tibble(obj)
+```
+
+## Manage Variable Names
+We have a couple choices when it comes to cleaning-up variable names.
+
+* `snake_case`
+* `lowerCamel`
+* `UpperCamel`
+
+The default is `"snake"`, which we'll clearly specify here:
+
+```{r clean-names-snake}
+```
+clean_names(lakes, case = "snake")
+
+The following code chunk illustrates the `"lower_camel"` option for comparison.
+
+```{r clean-names-lower-camel}
+clean_names(lakes, case = "lower_camel")
+```
+
+The underscores used in snake case are gone, and replaced by a capital letter in the second word. With `"uower_camel"`, the first character of each variable name will also be capitalized
+
+```{r clean-names-upper-camel}
+clean_names(lakes, case = "upper_camel")
+```
+
+
+
+```{r rename-pipe}
+lakes %>%
+  clean_names(case = "snake") %>%
+  rename(
+    year = yr,
+    water_body_id = wbid) -> lakes_names
+
+lakes_names
+```
+
+I like to rename each individual variable on a separate line in the code to make the changes I'm making crystal clear.
+
+## Missing Data
+Once we've got column names that are predictable and easy to work with, we want to check for missing data. This can be done with the `naniar` package's `miss_var_summary()` function, which will provide us with a tibble where each row is a variable. The count and percentage of missing observations per variable is provided in the columns:
+
+```{r miss-var}
+lakes_names %>%
+  miss_var_summary()
+```
+
+When we have missing data, we have two choices. We can either try to "recover it" (perhaps we can find another data source with the same information), or we simply ignore it and move on. Sometimes, these are superfluous columns (like `feat_url`) that are not necessary for the work we are doing.
+
+Here the missing data can be subset,  by using the following approach:
+
+```r
+lakes_names %>%
+  filter(is.na(water_body) == FALSE)
+```
+  
+ This code would eliminate all observations where `is.na(water_body)` was equal to `TRUE` (i.e. was missing), and keep only observations with valid data.
+ 
+## Duplicates
+A  duplicate `janitor` package's `get_dupes()` function be used :
+
+```{r dupes}
+lakes_names %>%
+  get_dupes()
+```
+
+With this it clearly shows that are no right  duplicates that have identical information in every variable.
+
+```{r dupes-water}
+lakes_names %>%
+  get_dupes(water_body)
+```
+
+  
+
+```{r distinct-water}
+lakes_names %>%
+  distinct(water_body)
+```
+
+We get a tibble that has 55 rows, which is shorter than our original data frame with 86 observations. This tells us that there are duplicate bodies of water.
+
+In these sorts of situations, we want to explore our data further and identify what differs between these columns. In this case, we have data that are fundamentally observations of one pollutant per body of water. So a body of water with multiple pollutants will have multiple rows. This is complicated by data that differs in some ancillary variables (like `perm_id`), and some data that appear to be for multiple features (Mark Twin Lake, for example, appears to be constituted by two polygons in these data). Getting to the bottom this can be complicated and can take time.
+
+Once we are ready to get rid of duplicated data, we can use the `dplyr` `distinct()` function. The `.keep_all` argument is important, as it ensures that we get all of the other columns in addition to the one we specify:
+
+```{r distinct-keep}
+lakes_names %>%
+  distinct(water_body, .keep_all = TRUE) -> lakes_unique
+
+lakes_unique
+```
+
+## Subsetting Columns
+With oue  data set in place with a predictable number of observations, we can start to get rid of columns. This practice of whittling down our data is known as "subsetting." We always use the `select()` function from `dplyr` for this. We can list one or more variables preceded by a negative sign (i.e. `-`) to remove a column from our data:
+
+```{r remove-var}
+lakes_unique %>%
+  select(-year)
+```
+
+Alternatively, we can list variables without negative signs that we want to retain:
+
+```{r kee-vars}
+lakes_unique %>%
+  select(water_body_id, water_body, pollutant) -> lakes_subset_cols
+
+lakes_subset_cols
+```
+
+A data is written to a new object when we it goes with  the changes being made.
+
+This data is created in the order the columns are listed and the re-ordering  list to put `pollutant` first will mean that pollutant is now the first column in the data  created.
+
+```{r reorder-vars}
+lakes_subset_cols %>%
+  select(pollutant, water_body_id, water_body)
+```
+
+## Subsetting Observations
+  A dAta can be subset by observation. For moreover,,  `filter()` function from `dplyr` to return only observations that are for lakes at or over 100 acres in size:
+
+  ```{r filter-size}
+lakes_names %>% 
+  filter(size >= 100)
+```
+
+Our `filter()` statement uses a **relational operator** (`>=`, i.e. "greater than or equal to"), to identify observations to keep. For each observation, it tests whether the `size` variable is greater than or equal to `100`. This creates a series of implicit `TRUE` or `FALSE` results - the lake is either greater than or equal to `100` or it is not. The lakes that are implicitly identified as `TRUE` are then selected and returned. 
+
+This is known as "boolean logic," and is a core principle within computer science. The relational operators that we can use in `R` are:
+
+* `>` - greater than
+* `>=` - greater than or equal to
+* `<` - less than
+* `<=` - less than or equal to
+* `==` - exactly equal to
+* `!-` - not equal to
+
+The `==` (i.e. "exactly equal to") operator is particularly useful for selecting data that are character:
+
+```{r filter-pollutant}
+lakes_names %>% 
+  filter(pollutant == "Mercury in Fish Tissue (T)")
+```
+
+A two filter statements is put together into one  for the purpose of the selection of  large lakes with mercury in fish tissue by using a **logical operator**:
+
+```{r filter-both}
+lakes_names %>% 
+  filter(size >= 100 & pollutant == "Mercury in Fish Tissue (T)")
+```
+
+ The  `&` operator is used to create a condition where there are two boolean tests (one for `size` and one for `pollutant`) that **both** must be `TRUE`. This can be use  `|` as well to create a situation where one test or the other must be true.
+
+## Putting Things Together
+The list of large lakes that have mercury as a pollutant, we could combine this with  `distinct` function:
+
+```{r distinct-filter}
+lakes_names %>%
+  filter(size >= 100 & pollutant == "Mercury in Fish Tissue (T)") %>%
+  distinct(water_body)
+```
+
+A `tibble` with the 19 lake names that are both 100 acres or larger and have mercury as a pollutant.
+
+This logic extend this further, by combining all of the renaming and `select()` statements into a single pipeline. 
+
+1. First we take the `lakes` data, **then**
+2. we clean all of the variable names to snake_case, **then**
+3. we rename two of the variables further, **then**
+4. we subset columns to clarify the characteristics we are interested in, **then**
+5. we subset observations to retain only the lakes that are 100 acres or greater in size, **and**
+6. we assign those changes to a new object called `lakes_large`.
+
+```{r full-pipe}
+lakes %>% 
+  clean_names(case = "snake") %>%
+  rename(
+    year = yr,
+    water_body_id = wbid
+    ) %>%
+  select(water_body_id, water_body, size, unit, pollutant) %>%
+  filter(size >= 100) -> lakes_large
+
+lakes_large
+```
+
+## Creating and Modifying Variables
+ The `mutate()` function from `dplyr` is used to both creating the  new variables and edit existing ones. 
+
+### Modifying Existing Variables
+
+
+```{r to-character}
+lakes_large %>%
+  mutate(size = as.character(size)) -> lakes_chr
+
+lakes_chr
+```
+The size variable is now character instead of numeric, which can be useful when writing data to shapefiles (which do not like numbers over a certain size, an issue that crops up with large areas measured in square meters or feet).
+
+
+A data back can be converted  `as.numeric()`:
+
+```{r to-numeric}
+lakes_chr %>%
+  mutate(size = as.numeric(size))
+```
+
+
+
+### Creating New Variables
+
+
+```{r}
+lakes_large %>%
+  mutate(vlarge = ifelse(size >= 1000, TRUE, FALSE)) %>%
+  select(water_body, size, vlarge)
+```
+
+
+
+
+
+```{r}
+lakes_large %>%
+  mutate(vlarge = ifelse(size >= 1000, "Over 1000 acres", "Under 1000 acres")) %>%
+  select(water_body, size, vlarge)
+```
+
+
+
+
+
+```{r}
+lakes_large %>%
+  mutate(mercury = ifelse(pollutant == "Mercury in Fish Tissue (T)", TRUE, FALSE)) %>%
+  select(water_body, mercury)
+```
+
+  
+  
+```{r}
+lakes_large %>%
+  mutate(mercury = ifelse(str_detect(pollutant, pattern = "Mercury"), TRUE, FALSE)) %>%
+  select(water_body, pollutant, mercury)
+```
+
+
+
+```{r}
+lakes_large %>%
+  mutate(phosNitro = ifelse(str_detect(pollutant, pattern = "Phosphorus|Nitrogen"), TRUE, FALSE)) %>%
+  select(water_body, pollutant, phosNitro)
+```
+
+  
+  
+  
+  
+ ```{r}
+ lakes_large %>%
+  distinct(pollutant)
+```
+
+  
+
+```{r}
+lakes_large %>% 
+  mutate(pollutant_simple = case_when(
+    pollutant == "Chlorophyll-a (W)" ~ "Chlorophyll",
+    pollutant == "Mercury in Fish Tissue (T)" ~ "Mercury",
+    pollutant == "Phosphorus, Total (W)" ~ "Phosphorus",
+    pollutant == "Nitrogen, Total (W)"  ~ "Nitrogen",
+    pollutant == "Nutrient/Eutrophication Biol. Indicators (W)"  ~ "Eutrophication"
+    ))
+```
+
+    
+    
+ ## Grouping and Summarizing Observations
+   
+    
+
+
+1. Take the `lakes_large` data, **then**
+2. we create a list of distinct combinations of lake names and pollutants, **then**
+3. create our binary indicator for the presence of mercury, **then**
+4. group our observations by body of water, **then**
+5. create new summary variables that count the number of pollutants per body of water and test whether any of the values for `mercury` for each body of water are `TRUE`, **then**
+6. re-order the output in descending order (the role of `desc()`) so the lake with the largest number of pollutants is listed first.
+
+```{r}
+lakes_large %>%
+  distinct(water_body, pollutant) %>%
+  mutate(mercury = ifelse(pollutant == "Mercury in Fish Tissue (T)", TRUE, FALSE)) %>%
+  group_by(water_body) %>%
+  summarize(
+    pollutant_count = n(),
+    mercury = any(mercury)) %>%
+  arrange(desc(pollutant_count))
+```
+
+
+```{r move-to-docs, include=FALSE}
+# you do need to include this in any notebook you create for this class
+fs::file_copy(here::here("examples", "meeting-2-1-complete.nb.html"), 
+              here::here("docs", "index.nb.html"), 
+              overwrite = TRUE)
+```
+
+              
+              
+              
+              
+              
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
